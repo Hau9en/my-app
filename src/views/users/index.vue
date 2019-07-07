@@ -141,6 +141,7 @@
             <el-button
               type="primary"
               icon="el-icon-edit"
+              @click="showEditDialog(scope.row)"
             ></el-button>
           </el-tooltip>
           <el-tooltip
@@ -223,6 +224,56 @@
         >确 定</el-button>
       </div>
     </el-dialog>
+
+    <!-- 用户编辑 -->
+    <el-dialog
+      title="用户编辑"
+      :visible.sync="editDialogFormVisible"
+    >
+      <el-form
+        :model="editForm"
+        :label-width="'100px'"
+        :rules="rules"
+        ref="editForm"
+      >
+        <el-form-item label="用户名">
+          <el-input
+            v-model="editForm.username"
+            auto-complete="off"
+            :disabled="true"
+            style="width:100px"
+          ></el-input>
+        </el-form-item>
+        <el-form-item
+          label="邮箱"
+          prop="email"
+        >
+          <el-input
+            v-model="editForm.email"
+            auto-complete="off"
+          ></el-input>
+        </el-form-item>
+        <el-form-item
+          label="手机"
+          prop="mobile"
+        >
+          <el-input
+            v-model="editForm.mobile"
+            auto-complete="off"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <div
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button @click="editDialogFormVisible = false">取 消</el-button>
+        <el-button
+          type="primary"
+          @click="editUserSubmit"
+        >确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -232,12 +283,21 @@ import {
   addUser,
   delUser,
   updateUserState,
-  grantUserRole
+  grantUserRole,
+  editUser
 } from '@/api/user_api.js'
 import { getAllRoleList } from '@/api/role_api.js'
 export default {
   data () {
     return {
+      // 编辑用户
+      editForm: {
+        emil: '',
+        id: '',
+        mobile: '',
+        username: ''
+      },
+      editDialogFormVisible: false,
       value4: '',
       roleList: [],
       grantDialogFormVisible: false,
@@ -307,13 +367,48 @@ export default {
     this.init()
     // 获取用户角色列表《select》
     getAllRoleList().then(res => {
-      // console.log(res)
+      console.log(res)
       if (res.data.meta.status === 200) {
         this.roleList = res.data.data
       }
     })
   },
   methods: {
+    // 实现编辑用户弹框
+    showEditDialog (row) {
+      console.log(row)
+      this.editDialogFormVisible = true
+      this.editForm.id = row.id
+      this.editForm.username = row.username
+      this.editForm.email = row.email
+      this.editForm.mobile = row.mobile
+    },
+    // 实现点击提交用户编辑
+    editUserSubmit () {
+      this.$refs.editForm.validate(valid => {
+        if (valid) {
+          editUser(this.editForm)
+            .then(res => {
+              if (res.data.meta.status === 200) {
+                this.$message({
+                  type: 'success',
+                  message: res.data.meta.msg
+                })
+              }
+              this.editDialogFormVisible = false
+              this.init()
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        } else {
+          this.$message({
+            type: 'success',
+            message: '输入不合法'
+          })
+        }
+      })
+    },
     // 实现角色分配
     grantRoleSubmit () {
       if (!this.grantForm.rid) {
