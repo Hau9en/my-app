@@ -7,3 +7,9 @@ export const getAllRoleList = () => {
     url: 'roles'
   })
 }
+export const delRightByRoleId = (roleId, rightId) => {
+  return axios({
+    method: 'delete',
+    url: `roles/${roleId}/rights/${rightId}`
+  })
+}

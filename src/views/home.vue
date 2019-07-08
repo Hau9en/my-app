@@ -8,12 +8,12 @@
           :router="true"
           :unique-opened="true"
           class="el-menu-vertical-demo"
-          style="background-color:#8d8d8d;"
+          style="background-color:#44546b;"
         >
-          <el-submenu index="1">
+          <el-submenu index="1" >
             <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>用户管理</span>
+              <i class="el-icon-location" style="color:#fff"></i>
+              <span style="color:#fff">用户管理</span>
             </template>
             <el-menu-item index="/home/users">
               <template slot="title">
@@ -24,8 +24,8 @@
           </el-submenu>
           <el-submenu index="2">
             <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>权限管理</span>
+              <i class="el-icon-location" style="color:#fff"></i>
+              <span style="color:#fff">权限管理</span>
             </template>
             <el-menu-item index="roles">
               <template slot="title">
@@ -49,6 +49,7 @@
           <a
             href="javascript:;"
             class="welcome"
+            style="color:#fff"
           >退出</a>
         </el-header>
         <el-main>
@@ -74,18 +75,18 @@ export default {}
     height: 100%;
   }
   .el-aside {
-    background-color: #8d8d8d;
+    background-color: #44546b;
   }
   .el-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #8d8d8d;
+    background-color: #44546b;
   }
   .logo {
     margin: 3px 0px 3px 6px;
     height: 54px;
-    background: url(../assets/logo.png);
+    background: url(../assets/logo7.png) no-repeat center;
     background-size: cover;
     vertical-align: middle;
     // background-color: #fff;
@@ -103,10 +104,10 @@ export default {}
   }
   .system-title {
     font-size: 28px;
-    color: white;
+    color: #fff;
   }
-  .welcome {
-    // color: white;
-  }
+  // .welcome {
+  //   // color: white;
+  // }
 }
 </style>

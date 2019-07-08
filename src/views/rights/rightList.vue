@@ -30,9 +30,12 @@
       >
       </el-table-column>
       <el-table-column
-        prop="level"
         label="层级"
+        width="200"
       >
+        <template slot-scope="scope">
+          {{scope.row.level | levelFilter}}
+        </template>
       </el-table-column>
     </el-table>
     <div
@@ -76,10 +79,20 @@ export default {
     }
   },
   mounted () {
-    getAllRightList('list')
-      .then((res) => {
-        this.rightList = res.data.data
-      })
+    getAllRightList('list').then(res => {
+      this.rightList = res.data.data
+    })
+  },
+  filters: {
+    levelFilter: level => {
+      if (level === '0') {
+        return '一级'
+      } else if (level === '1') {
+        return '二级'
+      } else if (level === '2') {
+        return '三级'
+      }
+    }
   }
 }
 </script>
