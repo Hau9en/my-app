@@ -7,3 +7,9 @@ export const getAllRightList = (type) => {
     url: `rights/${type}`
   })
 }
+// 获取 左侧菜单按钮
+export const getRightMenuList = () => {
+  return axios({
+    url: `menus`
+  })
+}
